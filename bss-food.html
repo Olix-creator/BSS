@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BSS FOOD 03 — Urban Grill & Pizza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0b09;
+    --black2: #131008;
+    --coal: #1a1510;
+    --charcoal: #241e17;
+    --brick: #8b3a1e;
+    --brick-light: #b04a26;
+    --ember: #e05c1a;
+    --orange: #f07020;
+    --amber: #e8a030;
+    --cream: #f2e8d4;
+    --cream2: #d4c4a8;
+    --muted: #8a7a68;
+    --border: rgba(255,255,255,0.06);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── BRICK TEXTURE OVERLAY ── */
+  .brick-overlay {
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 28px,
+        rgba(0,0,0,0.25) 28px,
+        rgba(0,0,0,0.25) 30px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 58px,
+        rgba(0,0,0,0.15) 58px,
+        rgba(0,0,0,0.15) 60px
+      );
+    background-size: 120px 30px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s var(--ease-out), backdrop-filter 0.4s;
+  }
+
+  nav.scrolled {
+    background: rgba(13,11,9,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-logo span { color: var(--ember); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream2);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 1px;
+    background: var(--ember);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  .nav-links a:hover { color: var(--cream); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--ember);
+    border: none;
+    padding: 0.65rem 1.6rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .nav-cta:hover { background: var(--orange); }
+  .nav-cta:active { transform: scale(0.97); }
+
+  /* hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    width: 24px; height: 2px;
+    background: var(--cream);
+    transition: all 0.3s;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(105deg, rgba(13,11,9,0.96) 40%, rgba(13,11,9,0.6) 70%, rgba(13,11,9,0.3) 100%),
+      url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(139,58,30,0.15) 0%, transparent 60%);
+  }
+
+  .brick-texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 26px, rgba(255,200,100,1) 26px, rgba(255,200,100,1) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 54px, rgba(255,200,100,1) 54px, rgba(255,200,100,1) 56px);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 4rem;
+    max-width: 720px;
+    animation: heroFade 1.2s var(--ease-out) forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  @keyframes heroFade {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: heroFade 1.2s 0.1s var(--ease-out) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--ember);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 9vw, 7.5rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    animation: heroFade 1.2s 0.2s var(--ease-out) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--ember);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--cream2);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    animation: heroFade 1.2s 0.3s var(--ease-out) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+    animation: heroFade 1.2s 0.4s var(--ease-out) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .btn-primary {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--ember);
+    border: none;
+    padding: 0.9rem 2.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--orange); transform: translateY(-2px); }
+  .btn-primary:active { transform: scale(0.97) translateY(0); }
+
+  .btn-outline {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: transparent;
+    border: 1px solid rgba(242,232,212,0.3);
+    padding: 0.9rem 2.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover { border-color: var(--cream); background: rgba(242,232,212,0.05); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 3;
+    opacity: 0;
+    animation: heroFade 1s 1s var(--ease-out) forwards;
+  }
+
+  .hero-scroll span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--ember), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 6rem 4rem; }
+
+  .section-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ember);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--ember);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── INTRO STRIP ── */
+  .intro-strip {
+    background: var(--coal);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.8rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+    overflow: hidden;
+  }
+
+  .intro-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .intro-icon {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(224,92,26,0.12);
+    border: 1px solid rgba(224,92,26,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .intro-text strong {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    display: block;
+    color: var(--cream);
+  }
+
+  .intro-text span {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .intro-divider {
+    width: 1px; height: 40px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  /* ── ABOUT / IDENTITY ── */
+  .about {
+    background: var(--black2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.8rem;
+  }
+
+  .about-img {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .about-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s var(--ease-out);
+  }
+
+  .about-img:hover img { transform: scale(1.06); }
+
+  .about-img.tall { grid-row: span 2; }
+
+  .about-img.tall img { height: 400px; }
+  .about-img:not(.tall) img { height: 190px; }
+
+  .about-text p {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--cream2);
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+  }
+
+  .about-stat {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .stat-box {
+    border-top: 1px solid var(--border);
+    padding-top: 1.2rem;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--ember);
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* ── GALLERY ── */
+  .gallery-section {
+    background: var(--black);
+    padding-bottom: 0;
+  }
+
+  .gallery-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 260px 260px;
+    gap: 0.6rem;
+    margin: 0 -4rem;
+  }
+
+  .g-item {
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .g-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(13,11,9,0.4);
+    transition: background 0.4s var(--ease-out);
+  }
+
+  .g-item:hover::after { background: rgba(13,11,9,0.1); }
+
+  .g-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-out);
+    display: block;
+  }
+
+  .g-item:hover img { transform: scale(1.08); }
+
+  .g1 { grid-column: span 4; }
+  .g2 { grid-column: span 3; }
+  .g3 { grid-column: span 5; }
+  .g4 { grid-column: span 3; }
+  .g5 { grid-column: span 4; }
+  .g6 { grid-column: span 5; }
+
+  .g-caption {
+    position: absolute;
+    bottom: 1rem; left: 1rem;
+    z-index: 2;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(242,232,212,0.7);
+    pointer-events: none;
+    transition: color 0.3s;
+  }
+
+  .g-item:hover .g-caption { color: var(--cream); }
+
+  /* ── SPECIALTIES ── */
+  .specialties {
+    background: var(--charcoal);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .specialties::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(255,255,255,0.02) 27px, rgba(255,255,255,0.02) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 55px, rgba(255,255,255,0.015) 55px, rgba(255,255,255,0.015) 56px);
+    pointer-events: none;
+  }
+
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 3.5rem;
+  }
+
+  .spec-card {
+    background: rgba(13,11,9,0.5);
+    border: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
+    cursor: default;
+  }
+
+  .spec-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--ember);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .spec-card:hover { background: rgba(224,92,26,0.05); border-color: rgba(224,92,26,0.2); }
+  .spec-card:hover::before { transform: scaleX(1); }
+
+  .spec-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.2rem;
+    display: block;
+    filter: drop-shadow(0 0 16px rgba(224,92,26,0.3));
+  }
+
+  .spec-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    margin-bottom: 0.6rem;
+  }
+
+  .spec-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .spec-price-range {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--ember);
+    text-transform: uppercase;
+  }
+
+  /* ── CTA BAND ── */
+  .cta-band {
+    background: var(--ember);
+    padding: 5rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .cta-band h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.03em;
+    color: var(--black);
+    line-height: 0.95;
+  }
+
+  .cta-band h2 small {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(13,11,9,0.6);
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-dark {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--black);
+    border: none;
+    padding: 1rem 2.5rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  .btn-dark:hover { background: var(--coal); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black2);
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+  }
+
+  .footer-logo span { color: var(--ember); }
+
+  .footer-info {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.8;
+    text-align: center;
+  }
+
+  .footer-info a { color: var(--ember); text-decoration: none; }
+
+  .footer-social {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-link {
+    width: 38px; height: 38px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .social-link:hover { border-color: var(--ember); color: var(--ember); }
+
+  /* ══════════════════════════════════════
+     MENU PAGE
+  ══════════════════════════════════════ */
+  #menu-page {
+    display: none;
+    min-height: 100vh;
+    background: var(--black);
+  }
+
+  #menu-page.active { display: block; }
+  #landing-page.hidden { display: none; }
+
+  .menu-hero {
+    position: relative;
+    padding: 10rem 4rem 5rem;
+    text-align: center;
+    background:
+      linear-gradient(to bottom, rgba(13,11,9,0.7) 0%, rgba(13,11,9,0.95) 100%),
+      url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&auto=format&fit=crop&q=80') center/cover;
+    overflow: hidden;
+  }
+
+  .menu-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(255,255,255,0.015) 27px, rgba(255,255,255,0.015) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 55px, rgba(255,255,255,0.01) 55px, rgba(255,255,255,0.01) 56px);
+    pointer-events: none;
+  }
+
+  .menu-hero-inner { position: relative; z-index: 1; }
+
+  .menu-hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    letter-spacing: 0.08em;
+    color: var(--cream);
+    line-height: 0.9;
+    margin-bottom: 0.8rem;
+  }
+
+  .menu-hero-title em {
+    font-style: normal;
+    color: var(--ember);
+  }
+
+  .menu-hero-sub {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* sticky menu nav */
+  .menu-nav-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13,11,9,0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 4rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .menu-nav-sticky::-webkit-scrollbar { display: none; }
+
+  .menu-tab {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 1.1rem 1.4rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .menu-tab:hover { color: var(--cream); }
+  .menu-tab.active { color: var(--ember); border-bottom-color: var(--ember); }
+
+  /* menu category sections */
+  .menu-section {
+    padding: 4rem 4rem 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .menu-section:last-of-type { border-bottom: none; }
+
+  .cat-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .cat-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .cat-accent {
+    color: var(--ember);
+  }
+
+  .cat-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+    margin-bottom: 0.5rem;
+  }
+
+  /* item grid */
+  .menu-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .menu-item {
+    background: var(--black);
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .menu-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--ember);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  .menu-item:hover { background: rgba(224,92,26,0.04); }
+  .menu-item:hover::before { transform: scaleY(1); }
+
+  .item-info { flex: 1; }
+
+  .item-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+  }
+
+  .item-desc {
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 300px;
+  }
+
+  .item-badge {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    background: rgba(232,160,48,0.12);
+    border: 1px solid rgba(232,160,48,0.25);
+    padding: 0.15rem 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .item-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ember);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-top: 0.15rem;
+  }
+
+  /* table-style menu items */
+  .menu-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .menu-table tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+
+  .menu-table tr:hover { background: rgba(224,92,26,0.03); }
+  .menu-table tr:last-child { border-bottom: none; }
+
+  .menu-table td {
+    padding: 1rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .menu-table .t-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    text-transform: uppercase;
+  }
+
+  .menu-table .t-desc {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 300;
+  }
+
+  .menu-table .t-price {
+    text-align: right;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    color: var(--ember);
+    white-space: nowrap;
+  }
+
+  /* tacos matrix */
+  .taco-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+  }
+
+  .taco-table th {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ember);
+    padding: 0.8rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    background: rgba(224,92,26,0.05);
+    text-align: center;
+  }
+
+  .taco-table th:first-child { text-align: left; }
+  .taco-table th:last-child { border-right: none; }
+
+  .taco-table td {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    text-align: center;
+    color: var(--cream2);
+    transition: background 0.2s;
+  }
+
+  .taco-table tr:last-child td { border-bottom: none; }
+  .taco-table td:last-child { border-right: none; }
+  .taco-table td:first-child { text-align: left; font-family: 'Oswald', sans-serif; font-weight: 500; color: var(--cream); font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .taco-table tr:hover td { background: rgba(224,92,26,0.03); }
+
+  /* sub-section headers */
+  .sub-cat {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.06em;
+    color: var(--cream2);
+    margin: 2.5rem 0 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .sub-cat .accent { color: var(--ember); }
+  .sub-cat::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .supplement-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid rgba(224,92,26,0.3);
+  }
+
+  /* family platter callout */
+  .platter-box {
+    background: rgba(224,92,26,0.06);
+    border: 1px solid rgba(224,92,26,0.2);
+    padding: 1.8rem 2rem;
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .platter-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    color: var(--ember);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    border-right: 1px solid rgba(224,92,26,0.3);
+    padding-right: 1rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+
+    section { padding: 4rem 1.5rem; }
+    .hero-content { padding: 0 1.5rem; }
+    .hero-title { font-size: clamp(3.2rem, 12vw, 5rem); }
+
+    .intro-strip { flex-wrap: wrap; padding: 1.5rem; gap: 1rem; }
+    .intro-divider { display: none; }
+
+    .about { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-image-grid { grid-template-columns: 1fr 1fr; }
+    .about-img.tall img { height: 280px; }
+    .about-img:not(.tall) img { height: 135px; }
+
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(3, 200px);
+      margin: 0 -1.5rem;
+    }
+    .g1, .g2, .g3, .g4, .g5, .g6 { grid-column: span 1; }
+    .g3, .g6 { grid-column: span 2; }
+
+    .spec-grid { grid-template-columns: 1fr; }
+
+    .cta-band { flex-direction: column; text-align: center; padding: 3rem 1.5rem; }
+
+    footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+    .footer-social { justify-content: center; }
+
+    .menu-hero { padding: 8rem 1.5rem 3rem; }
+    .menu-nav-sticky { padding: 0 1.5rem; }
+    .menu-section { padding: 3rem 1.5rem 2rem; }
+
+    .menu-items { grid-template-columns: 1fr; }
+    .taco-table { font-size: 0.75rem; }
+    .taco-table th, .taco-table td { padding: 0.6rem 0.6rem; }
+  }
+
+  /* mobile nav open */
+  .nav-mobile {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(13,11,9,0.98);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-mobile a:hover { color: var(--ember); }
+  .nav-close {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV OVERLAY -->
+<nav class="nav-mobile" id="mobileNav">
+  <button class="nav-close" onclick="toggleMobileNav()">✕</button>
+  <a href="#about" onclick="toggleMobileNav(); showPage('landing')">Notre Histoire</a>
+  <a href="#gallery" onclick="toggleMobileNav(); showPage('landing')">Galerie</a>
+  <a href="#specialties" onclick="toggleMobileNav(); showPage('landing')">Spécialités</a>
+  <a href="#" onclick="toggleMobileNav(); showPage('menu')">Notre Menu</a>
+</nav>
+
+<!-- TOP NAV -->
+<nav id="topNav">
+  <a class="nav-logo" href="#" onclick="showPage('landing')">
+    BSS <span>FOOD</span> 03
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about" onclick="showPage('landing')">Notre Histoire</a></li>
+    <li><a href="#gallery" onclick="showPage('landing')">Galerie</a></li>
+    <li><a href="#specialties" onclick="showPage('landing')">Spécialités</a></li>
+    <li><a href="#" onclick="showPage('menu')">Menu</a></li>
+  </ul>
+  <a class="nav-cta" href="#" onclick="showPage('menu')">Voir le Menu</a>
+  <div class="hamburger" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ══════════════ LANDING PAGE ══════════════ -->
+<div id="landing-page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="brick-texture"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Bienvenue chez BSS Food 03</div>
+      <h1 class="hero-title">
+        Urban<br>
+        <em>Grill &</em><br>
+        Pizza
+      </h1>
+      <p class="hero-sub">
+        Du feu. De la saveur. Une identité. Chaque bouchée raconte l'histoire d'une cuisine urbaine authentique, artisanale, et inoubliable.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#" onclick="showPage('menu')">Voir le Menu</a>
+        <a class="btn-outline" href="#about">Découvrir</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- INTRO STRIP -->
+  <div class="intro-strip">
+    <div class="intro-item">
+      <div class="intro-icon">🍕</div>
+      <div class="intro-text">
+        <strong>Pizzas Artisanales</strong>
+        <span>Four à bois · Ingrédients frais</span>
+      </div>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-item">
+      <div class="intro-icon">🍔</div>
+      <div class="intro-text">
+        <strong>Burgers Premium</strong>
+        <span>100% viande de qualité</span>
+      </div>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-item">
+      <div class="intro-icon">🌮</div>
+      <div class="intro-text">
+        <strong>Tacos & Sandwiches</strong>
+        <span>Recettes maison exclusives</span>
+      </div>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-item">
+      <div class="intro-icon">🍰</div>
+      <div class="intro-text">
+        <strong>Desserts & Drinks</strong>
+        <span>Douceurs et jus frais</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-image-grid reveal">
+      <div class="about-img tall">
+        <img src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=600&auto=format&fit=crop&q=80" alt="Restaurant ambiance">
+      </div>
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=80" alt="Burger">
+      </div>
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80" alt="Pizza">
+      </div>
+    </div>
+
+    <div class="about-text reveal" style="transition-delay: 0.15s">
+      <div class="section-label">Notre Histoire</div>
+      <h2 class="section-title">L'Âme<br>d'une Cuisine<br><span style="color:var(--ember)">Urbaine</span></h2>
+      <p style="margin-top: 1.5rem">
+        Fondé avec une passion brûlante pour les saveurs authentiques, BSS Food 03 est né d'une volonté simple : créer une expérience culinaire urbaine, chaleureuse, et sans compromis.
+      </p>
+      <p>
+        Nos recettes combinent des techniques modernes avec des ingrédients soigneusement sélectionnés. Chaque plat est une déclaration de goût.
+      </p>
+      <div class="about-stat">
+        <div class="stat-box">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Items au Menu</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Viande Fraîche</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Années d'Excellence</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Saveurs Uniques</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery-section" id="gallery">
+    <div class="gallery-header reveal">
+      <div>
+        <div class="section-label">Nos Créations</div>
+        <h2 class="section-title">La Galerie</h2>
+      </div>
+      <p style="color: var(--muted); font-size: 0.85rem; max-width: 300px; text-align: right; font-weight: 300; line-height: 1.7;">
+        Chaque image raconte une histoire de saveur, de texture et d'ambiance unique.
+      </p>
+    </div>
+
+    <div class="gallery-grid reveal" style="transition-delay: 0.1s">
+      <div class="g-item g1">
+        <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&auto=format&fit=crop&q=80" alt="Burger premium">
+        <div class="g-caption">Burgers</div>
+      </div>
+      <div class="g-item g2">
+        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&auto=format&fit=crop&q=80" alt="Pizza artisanale">
+        <div class="g-caption">Pizza</div>
+      </div>
+      <div class="g-item g3">
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&auto=format&fit=crop&q=80" alt="Ambiance restaurant">
+        <div class="g-caption">Ambiance</div>
+      </div>
+      <div class="g-item g4">
+        <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&auto=format&fit=crop&q=80" alt="Frites maison">
+        <div class="g-caption">Frites</div>
+      </div>
+      <div class="g-item g5">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&auto=format&fit=crop&q=80" alt="Pizza au four">
+        <div class="g-caption">Pizzas</div>
+      </div>
+      <div class="g-item g6">
+        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&auto=format&fit=crop&q=80" alt="Cocktails et drinks">
+        <div class="g-caption">Drinks</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECIALTIES -->
+  <section class="specialties" id="specialties">
+    <div class="reveal">
+      <div class="section-label">Ce qu'on fait le mieux</div>
+      <h2 class="section-title">Nos<br>Spécialités</h2>
+    </div>
+    <div class="spec-grid reveal" style="transition-delay: 0.1s">
+      <div class="spec-card">
+        <span class="spec-icon">🍕</span>
+        <div class="spec-price-range">dès 250 DA</div>
+        <div class="spec-name">Pizzas</div>
+        <p class="spec-desc">De la Marguerite classique à la BSS Miga signature, nos pizzas L jusqu'à Miga combinent fromages fondants, garnitures généreuses et pâtes dorées.</p>
+      </div>
+      <div class="spec-card">
+        <span class="spec-icon">🍔</span>
+        <div class="spec-price-range">dès 250 DA</div>
+        <div class="spec-name">Burgers</div>
+        <p class="spec-desc">Chicken, Crispy, Double Cheese, ou le légendaire BSS Burger — chaque burger est une architecture de saveurs construite avec précision.</p>
+      </div>
+      <div class="spec-card">
+        <span class="spec-icon">🌮</span>
+        <div class="spec-price-range">dès 400 DA</div>
+        <div class="spec-name">Tacos</div>
+        <p class="spec-desc">4 tailles, 5 garnitures. Du M au XXL, nos tacos Poulet, Viande, Kabda, Mixte et Gratiné sont faits pour les grands appétits.</p>
+      </div>
+      <div class="spec-card">
+        <span class="spec-icon">🥙</span>
+        <div class="spec-price-range">dès 300 DA</div>
+        <div class="spec-name">Sandwiches</div>
+        <p class="spec-desc">Chawarma, Kabda, Raghif, Fajitas, Panozo — une sélection complète de sandwiches généreux avec des sauces maison inoubliables.</p>
+      </div>
+      <div class="spec-card">
+        <span class="spec-icon">🍰</span>
+        <div class="spec-price-range">dès 300 DA</div>
+        <div class="spec-name">Desserts</div>
+        <p class="spec-desc">Tiramisu, Crêpes, Pancakes, Gaufres, Cheesecake, San Sebastian et bien plus. Douceurs artisanales pour finir en beauté.</p>
+      </div>
+      <div class="spec-card">
+        <span class="spec-icon">🥤</span>
+        <div class="spec-price-range">dès 40 DA</div>
+        <div class="spec-name">Boissons</div>
+        <p class="spec-desc">Jus frais, Milkshakes, Canettes, et Jus 1L. De quoi accompagner chaque repas avec la fraîcheur qui convient.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="cta-band reveal">
+    <h2>
+      <small>Découvrez tout notre menu</small>
+      Commandez<br>Maintenant
+    </h2>
+    <div style="display:flex; flex-direction:column; gap:0.8rem; align-items:center;">
+      <a class="btn-dark" href="#" onclick="showPage('menu')">Voir le Menu Complet</a>
+      <span style="font-size:0.78rem; color:rgba(13,11,9,0.5); font-family:'Oswald',sans-serif; letter-spacing:0.1em;">📞 0670 814 232 · 0671 866 083</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">BSS <span>FOOD</span> 03</div>
+    <div class="footer-info">
+      <div>📍 Contactez-nous pour l'adresse</div>
+      <div>📞 <a href="tel:0670814232">0670 814 232</a> · <a href="tel:0671866083">0671 866 083</a></div>
+      <div style="margin-top:0.3rem; color: var(--border)">© 2025 BSS Food 03. Tous droits réservés.</div>
+    </div>
+    <div class="footer-social">
+      <a class="social-link" href="https://www.instagram.com/bss_food_03" target="_blank">📷</a>
+      <a class="social-link" href="tel:0670814232">📞</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════ MENU PAGE ══════════════ -->
+<div id="menu-page">
+  <div class="menu-hero">
+    <div class="menu-hero-inner">
+      <div class="section-label" style="justify-content:center; margin-bottom:0.8rem">BSS Food 03</div>
+      <h1 class="menu-hero-title">Notre<br><em>Menu</em></h1>
+      <p class="menu-hero-sub">Pizzas · Burgers · Tacos · Sandwiches · Desserts · Boissons</p>
+    </div>
+  </div>
+
+  <!-- sticky category nav -->
+  <div class="menu-nav-sticky">
+    <button class="menu-tab active" onclick="scrollToSection('sec-burgers', this)">Burgers</button>
+    <button class="menu-tab" onclick="scrollToSection('sec-special', this)">Spécial BSS</button>
+    <button class="menu-tab" onclick="scrollToSection('sec-pizza-l', this)">Pizza L</button>
+    <button class="menu-tab" onclick="scrollToSection('sec-pizza-m', this)">Pizza M/Miga</button>
+    <button class="menu-tab" onclick="scrollToSection('sec-tacos', this)">Tacos</button>
+    <button class="menu-tab" onclick="scrollToSection('sec-sandwiches', this)">Sandwiches</button>
+    <button class="menu-tab" onclick="scrollToSection('sec-plats', this)">Plats</button>
+    <button class="menu-tab" onclick="scrollToSection('sec-drinks', this)">Boissons</button>
+    <button class="menu-tab" onclick="scrollToSection('sec-desserts', this)">Desserts</button>
+  </div>
+
+  <!-- ── BURGERS ── -->
+  <div class="menu-section" id="sec-burgers">
+    <div class="cat-header">
+      <h2 class="cat-title">Menu <span class="cat-accent">Burger</span></h2>
+      <div class="cat-line"></div>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Chicken Burger</div>
+          <div class="item-desc">Poulet haché · Salade · Tomate · Sauce burger</div>
+        </div>
+        <div class="item-price">250 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Cheese Burger</div>
+          <div class="item-desc">Steak haché · Salade · Tomate · Sauce burger · Oignon</div>
+        </div>
+        <div class="item-price">300 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Crispy Burger</div>
+          <div class="item-desc">Poulet tender · Salade · Tomate · Sauce fromage · Oignon</div>
+        </div>
+        <div class="item-price">350 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Double Cheese Burger</div>
+          <div class="item-desc">100g Steak haché · Salade · Tomate · Sauce fromage · Oignon</div>
+        </div>
+        <div class="item-price">400 DA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SPÉCIAL BSS ── -->
+  <div class="menu-section" id="sec-special">
+    <div class="cat-header">
+      <h2 class="cat-title"><span class="cat-accent">Spécial</span> BSS</h2>
+      <div class="cat-line"></div>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item" style="grid-column: 1 / -1;">
+        <div class="item-info">
+          <div class="item-badge">⭐ Signature</div>
+          <div class="item-name">BSS Burger</div>
+          <div class="item-desc">100g Steak haché · Nuggets · Tranche de dand fumé · Salade · Tomate · Sauce fromage · Oignons pané · Gruyère · Cheddar · Mozzarella · Cornichon · Sauce BBQ</div>
+        </div>
+        <div class="item-price">1200 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Tokyo</div>
+          <div class="item-desc">Nuggets poulet · Salad · Tomate · Fromage mozzarella · Sauce fromage · Oignons caramélisés</div>
+        </div>
+        <div class="item-price">450 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Le King</div>
+          <div class="item-desc">100g Steak haché · 100g Poulet pané · Salade · Cornichon · Tomate · Sauce burger · Oignons caramélisés</div>
+        </div>
+        <div class="item-price">600 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Quatro</div>
+          <div class="item-desc">140g Steak haché · Salade · Tomate · Sauce fromage · Oignons caramélisés · Gruyère · Cheddar · Mozzarella</div>
+        </div>
+        <div class="item-price">750 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Magic</div>
+          <div class="item-desc">160g Steak haché · Poulet haché · Tranche de dande fumé · Salade · Cornichon · Tomate · Sauce fromage double · Mozzarella · Oignons caramélisés</div>
+        </div>
+        <div class="item-price">1000 DA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PIZZA L ── -->
+  <div class="menu-section" id="sec-pizza-l">
+    <div class="cat-header">
+      <h2 class="cat-title">Menu <span class="cat-accent">Pizza</span> L</h2>
+      <div class="cat-line"></div>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Marguerite</div>
+          <div class="item-desc">Salsa tomate · Jbn</div>
+        </div>
+        <div class="item-price">250 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Marguerite plus+</div>
+          <div class="item-desc">Salsa tomate · Jbn · Jbn chidar</div>
+        </div>
+        <div class="item-price">350 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">3 Fromage</div>
+          <div class="item-desc">Salsa tomate · Jbn · Chidar · Mozzarella</div>
+        </div>
+        <div class="item-price">400 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">4 Fromage</div>
+          <div class="item-desc">Salsa tomate · Jbn · Chidar · Mozzarella · Kaambar</div>
+        </div>
+        <div class="item-price">500 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">5 Fromage</div>
+          <div class="item-desc">Salsa blanche · Jbn · Chidar · Kaambar · Mozzarella · Gruyère</div>
+        </div>
+        <div class="item-price">650 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Poulet</div>
+          <div class="item-desc">Salsa tomate · Jbn · Djaj metbal · Jbn · Mozzarella</div>
+        </div>
+        <div class="item-price">450 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Chawrma</div>
+          <div class="item-desc">Salsa tomate · Jbn · Shawrma · Mozzarella</div>
+        </div>
+        <div class="item-price">500 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Champignons</div>
+          <div class="item-desc">Salsa tomate · Jbn · Ftar tabii · Mozzarella</div>
+        </div>
+        <div class="item-price">500 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Poulet fumé</div>
+          <div class="item-desc">Salsa tomate · Djaj mdkhkhn · Jbn · Mozzarella</div>
+        </div>
+        <div class="item-price">550 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Thon</div>
+          <div class="item-desc">Salsa tomate · Thon · Mozzarella · Chidar</div>
+        </div>
+        <div class="item-price">600 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Viande</div>
+          <div class="item-desc">Salsa tomate · Lahm mfroum · Jbn · Mozzarella</div>
+        </div>
+        <div class="item-price">550 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Boisée</div>
+          <div class="item-desc">Salsa blanche · Jbn · Djaj mfroum · Mozzarella · Chidar · Felfal akhdar</div>
+        </div>
+        <div class="item-price">600 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Pepperoni</div>
+          <div class="item-desc">Salsa tomate · Lahm bqar mdkhn · Jbn · Mozzarella · Chidar</div>
+        </div>
+        <div class="item-price">800 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">4 Saisons</div>
+          <div class="item-desc">Salsa tomate · Tuna · Djaj mfroum · Lahm mfroum · Djaj mdkhn · Mozzarella · Chidar · Jbn</div>
+        </div>
+        <div class="item-price">800 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-badge">⭐ Signature</div>
+          <div class="item-name">Spécial</div>
+          <div class="item-desc">Salsa tomate · Jbn · Lahm mfroum · Djaj metbal · Kaambar · Djaj mdkhn · Tuna · Ftar tabii · Mozzarella · Chidar · Jbn</div>
+        </div>
+        <div class="item-price">1000 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Mixte</div>
+          <div class="item-desc">Salsa tomate · Jbn · Shawrma · Lahm mfroum · Mozzarella · Chidar</div>
+        </div>
+        <div class="item-price">600 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Royal</div>
+          <div class="item-desc">Salsa tomate · Jbn · Lahm mfroum · Thon · Djaj metbal · Mootgh · Chidar</div>
+        </div>
+        <div class="item-price">700 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info">
+          <div class="item-name">Crevette</div>
+          <div class="item-desc">Salsa tomate · Jbn · Jambri · Mozzarella · Chidar</div>
+        </div>
+        <div class="item-price">800 DA</div>
+      </div>
+    </div>
+    <div style="margin-top:1.2rem">
+      <p class="supplement-note"><strong style="color:var(--cream2)">Suppléments :</strong> Bordure fromage 100 DA · Chidar 100 DA · Camembert 100 DA · Gruyère 150 DA</p>
+    </div>
+  </div>
+
+  <!-- ── PIZZA M & MIGA ── -->
+  <div class="menu-section" id="sec-pizza-m">
+    <div class="cat-header">
+      <h2 class="cat-title">Pizza <span class="cat-accent">Medium</span> & Miga</h2>
+      <div class="cat-line"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border);">
+      <!-- Medium col -->
+      <div>
+        <div style="padding: 1rem 1.4rem; background: rgba(224,92,26,0.06); border-bottom: 1px solid var(--border);">
+          <span style="font-family:'Oswald',sans-serif; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember)">Pizza Medium</span>
+        </div>
+        <div class="menu-item" style="background:var(--black)">
+          <div class="item-info"><div class="item-name">Mixte</div><div class="item-desc">Djaj mfroum · Lahm mfroum · Jbn · Mozzarella</div></div>
+          <div class="item-price">1000 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-name">3 Saison</div><div class="item-desc">Lahm mfroum · Djaj mfroum · Djaj mdkhn · Jbn · Mozzarella</div></div>
+          <div class="item-price">1200 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-name">4 Saison</div><div class="item-desc">Lahm mfroum · Jbn · Djaj mfroum · Djaj mdkhn · Thon · Mozzarella</div></div>
+          <div class="item-price">1300 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-name">Special</div><div class="item-desc">Jbn · Lahm mfroum · Thon · Kaambar · Djaj mdkhn · Ftar tabii · Mozzarella · Chidar</div></div>
+          <div class="item-price">1500 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-badge">⭐ Signature</div><div class="item-name">Bss</div><div class="item-desc">Jbn · Shawrma · Lahm mfroum · Djaj mdkhn · Lahm bqar mdkhn · Jambri · Ftar · Thon</div></div>
+          <div class="item-price">1700 DA</div>
+        </div>
+      </div>
+
+      <!-- Miga col -->
+      <div style="border-left: 1px solid var(--border)">
+        <div style="padding: 1rem 1.4rem; background: rgba(224,92,26,0.06); border-bottom: 1px solid var(--border);">
+          <span style="font-family:'Oswald',sans-serif; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember)">Miga Pizza</span>
+        </div>
+        <div class="menu-item" style="background:var(--black)">
+          <div class="item-info"><div class="item-name">Mixte</div><div class="item-desc">Jbn · Lahm mfroum · Djaj mfroum · Hwaf jbniya · Mozzarella · Chidar</div></div>
+          <div class="item-price">1300 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-name">3 Saison</div><div class="item-desc">Jbn · Lahm mfroum · Djaj mfroum · Djaj mdkhn · Mozzarella · Chidar · Hwaf jbniya</div></div>
+          <div class="item-price">1500 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-name">4 Saison</div><div class="item-desc">Lahm mfroum · Djaj mdkhn · Thon · Djaj metbal · Jbn · Mozzarella · Chidar · Hwaf jbniya</div></div>
+          <div class="item-price">1700 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-name">Jardiné</div><div class="item-desc">Jbn · Thon · Kaambar · Djaj mfroum · Djaj mdkhn · Lahm mfroum · Chidar · Mozzarella · Hwaf jbniya</div></div>
+          <div class="item-price">1900 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-name">Special 8 Saison</div><div class="item-desc">Jbn · Djaj mdkhn · Lahm mfroum · Shawrma · Kaambar · Djaj metbal · Ftar tabii · Djaj mfroum · Mozzarella · Chidar · Hwaf jbniya</div></div>
+          <div class="item-price">2200 DA</div>
+        </div>
+        <div class="menu-item" style="background:var(--black); border-top: 1px solid var(--border)">
+          <div class="item-info"><div class="item-badge">⭐ BSS Ultimate</div><div class="item-name">Bss Miga</div><div class="item-desc">Jbn · Jambri · Lahm bqar mdkhn · Djaj mdkhn · Thon · Ftar tabii · Djaj metbal · Shawrma · Djaj mfroum · Kaambar · Mozzarella · Chidar · Hwaf</div></div>
+          <div class="item-price">2500 DA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TACOS ── -->
+  <div class="menu-section" id="sec-tacos">
+    <div class="cat-header">
+      <h2 class="cat-title">Nos <span class="cat-accent">Tacos</span></h2>
+      <div class="cat-line"></div>
+    </div>
+    <div style="overflow-x: auto;">
+      <table class="taco-table">
+        <thead>
+          <tr>
+            <th>Garniture</th>
+            <th>M</th>
+            <th>L</th>
+            <th>XL</th>
+            <th>XXL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Poulet</td><td>400 DA</td><td>500 DA</td><td>700 DA</td><td>1100 DA</td></tr>
+          <tr><td>Viande</td><td>500 DA</td><td>700 DA</td><td>900 DA</td><td>1300 DA</td></tr>
+          <tr><td>Kabda</td><td>500 DA</td><td>700 DA</td><td>1000 DA</td><td>1200 DA</td></tr>
+          <tr><td>Mixte</td><td>500 DA</td><td>700 DA</td><td>1000 DA</td><td>1200 DA</td></tr>
+          <tr><td>Gratiné</td><td>500 DA</td><td>600 DA</td><td>900 DA</td><td>1200 DA</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top: 1.2rem">
+      <p class="supplement-note"><strong style="color:var(--cream2)">Suppléments :</strong> Chidar 100 DA · Gruyère 150 DA · Camembert 100 DA</p>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Soufflé</span></div>
+    <div class="menu-items">
+      <div class="menu-item">
+        <div class="item-info"><div class="item-name">Viande</div></div>
+        <div class="item-price">400 DA</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-info"><div class="item-name">Poulet Giant</div></div>
+        <div class="item-price">600 DA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SANDWICHES & PANINI ── -->
+  <div class="menu-section" id="sec-sandwiches">
+    <div class="cat-header">
+      <h2 class="cat-title"><span class="cat-accent">Sandwiches</span> & Panini</h2>
+      <div class="cat-line"></div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border);">
+      <div>
+        <div style="padding: 1rem 1.4rem; background: rgba(224,92,26,0.06); border-bottom: 1px solid var(--border);">
+          <span style="font-family:'Oswald',sans-serif; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember)">Sandwiches</span>
+        </div>
+        <div class="menu-item" style="background:var(--black)"><div class="item-info"><div class="item-name">Chawarma</div></div><div class="item-price">300 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Poulet Marine</div></div><div class="item-price">300 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Kabda</div></div><div class="item-price">350 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Viande Haché</div></div><div class="item-price">300 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Poulet Haché</div></div><div class="item-price">300 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Escalope</div></div><div class="item-price">300 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Raghif</div></div><div class="item-price">350 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Fajitas</div></div><div class="item-price">450 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Arabi Chawarma</div></div><div class="item-price">400 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Panozo Poulet</div></div><div class="item-price">500 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Panozo Viande</div></div><div class="item-price">600 DA</div></div>
+      </div>
+      <div style="border-left: 1px solid var(--border)">
+        <div style="padding: 1rem 1.4rem; background: rgba(224,92,26,0.06); border-bottom: 1px solid var(--border);">
+          <span style="font-family:'Oswald',sans-serif; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember)">Panini</span>
+        </div>
+        <div class="menu-item" style="background:var(--black)"><div class="item-info"><div class="item-name">3 Fromage</div></div><div class="item-price">300 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Poulet</div></div><div class="item-price">300 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Viande</div></div><div class="item-price">300 DA</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PLATS & BOXES ── -->
+  <div class="menu-section" id="sec-plats">
+    <div class="cat-header">
+      <h2 class="cat-title">Les <span class="cat-accent">Plats</span></h2>
+      <div class="cat-line"></div>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">Chawrma</div></div><div class="item-price">600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Viande Hachée</div></div><div class="item-price">600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Poulet Marine</div></div><div class="item-price">600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Escalope</div></div><div class="item-price">600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Poulet Haché</div></div><div class="item-price">600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Kabda Poulet</div></div><div class="item-price">700 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Mixte</div></div><div class="item-price">800 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Arabi</div></div><div class="item-price">600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Steak Viande</div></div><div class="item-price">1200 DA</div></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Les Gratins</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">Poulet</div></div><div class="item-price">400 / 600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Viande</div></div><div class="item-price">500 / 800 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Crispy</div></div><div class="item-price">500 / 700 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Chawrma</div></div><div class="item-price">600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Poutine Poulet</div></div><div class="item-price">500 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Poutine Viande</div></div><div class="item-price">600 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Poutine Mixte</div></div><div class="item-price">800 DA</div></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Plate Familly</span></div>
+    <div class="platter-box">
+      <div class="platter-label">Famille</div>
+      <div>
+        <div class="menu-items" style="border:none; background:transparent; gap:1rem">
+          <div class="menu-item" style="border:1px solid var(--border); background:transparent">
+            <div class="item-info"><div class="item-name">5 Personnes</div></div>
+            <div class="item-price">2500 DA</div>
+          </div>
+          <div class="menu-item" style="border:1px solid var(--border); background:transparent">
+            <div class="item-info"><div class="item-name">Deux Personnes</div></div>
+            <div class="item-price">1500 DA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Les Boxes Arabi</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">Box</div></div><div class="item-price">1500 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Box</div></div><div class="item-price">2000 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Box</div></div><div class="item-price">2500 DA</div></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Boxes Crispy Chicken</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">4 pieces chicken breast</div></div><div class="item-price">700 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">8 pieces chicken breast</div></div><div class="item-price">1500 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Family chicken breast</div></div><div class="item-price">2500 DA</div></div>
+    </div>
+  </div>
+
+  <!-- ── DRINKS ── -->
+  <div class="menu-section" id="sec-drinks">
+    <div class="cat-header">
+      <h2 class="cat-title">Les <span class="cat-accent">Boissons</span></h2>
+      <div class="cat-line"></div>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border);">
+      <div>
+        <div style="padding: 1rem 1.4rem; background: rgba(224,92,26,0.06); border-bottom: 1px solid var(--border);">
+          <span style="font-family:'Oswald',sans-serif; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember)">Les Jus</span>
+        </div>
+        <div class="menu-item" style="background:var(--black)"><div class="item-info"><div class="item-name">JUS BANANE</div></div><div class="item-price">300 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">JUS FRAISE</div></div><div class="item-price">350 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">JUS MOJITO</div></div><div class="item-price">250 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">JUS CITRON</div></div><div class="item-price">200 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">JUS ORANGE</div></div><div class="item-price">250 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">JUS COCKTAIL</div></div><div class="item-price">350 DA</div></div>
+      </div>
+      <div style="border-left: 1px solid var(--border)">
+        <div style="padding: 1rem 1.4rem; background: rgba(224,92,26,0.06); border-bottom: 1px solid var(--border);">
+          <span style="font-family:'Oswald',sans-serif; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember)">Autres Boissons</span>
+        </div>
+        <div class="menu-item" style="background:var(--black)"><div class="item-info"><div class="item-name">Canette gazeuse 33cl</div></div><div class="item-price">70 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Jus 33cl</div></div><div class="item-price">80 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Gazeuse 1L</div></div><div class="item-price">150 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Jus 1L</div></div><div class="item-price">150 DA</div></div>
+        <div class="menu-item" style="background:var(--black); border-top:1px solid var(--border)"><div class="item-info"><div class="item-name">Jus top</div></div><div class="item-price">40 DA</div></div>
+      </div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Milkshakes</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">MILKSHAKE BANANE</div></div><div class="item-price">350 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">MILKSHAKE FRAISE</div></div><div class="item-price">350 DA</div></div>
+    </div>
+  </div>
+
+  <!-- ── DESSERTS ── -->
+  <div class="menu-section" id="sec-desserts">
+    <div class="cat-header">
+      <h2 class="cat-title">Bss <span class="cat-accent">Desserts</span></h2>
+      <div class="cat-line"></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Les Crêpes</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">CREPE SIMPLE</div></div><div class="item-price">300 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">CREPE PISTACHIO</div></div><div class="item-price">350 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">CREPE BANANE</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">CREPE FRAISE</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">CREPE ANANAS</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">CREPE 2 OU 3 FRUIT</div></div><div class="item-price">550 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">CREPE DOUBA</div></div><div class="item-price">350 DA</div></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Les Pancakes</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">PANCAKE SIMPLE</div></div><div class="item-price">300 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">PANCAKE BANANE</div></div><div class="item-price">400 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">PANCAKE FRAISE</div></div><div class="item-price">400 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">PANCAKE ANANAS</div></div><div class="item-price">400 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">PANCAKE 2 OU 3 FRUIT</div></div><div class="item-price">500 DA</div></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Les Gaufres</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">GAUFRE SIMPLE</div></div><div class="item-price">300 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">GAUFRE BANANE</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">GAUFRE FRAISE</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">GAUFRE ANANAS</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">GAUFRE 2 OU 3 FRUIT</div></div><div class="item-price">550 DA</div></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Tiramisu</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">Tiramisu Fraise</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Tiramisu Pistachio</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Tiramisu Chocolate</div></div><div class="item-price">450 DA</div></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Les Box Crêpes</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">Pasta Chocolat</div></div><div class="item-price">700 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Pasta Fraise</div></div><div class="item-price">850 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Pasta Banane</div></div><div class="item-price">850 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-badge">⭐ Signature</div><div class="item-name">Pasta Bss</div></div><div class="item-price">1200 DA</div></div>
+    </div>
+
+    <div class="sub-cat"><span class="accent">Gâteaux & Spécialités</span></div>
+    <div class="menu-items">
+      <div class="menu-item"><div class="item-info"><div class="item-name">Crème brûlée</div></div><div class="item-price">350 / 250 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">San Sebastian</div></div><div class="item-price">550 / 650 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Matilda cake</div></div><div class="item-price">450 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Cheesecake</div></div><div class="item-price">350 DA</div></div>
+      <div class="menu-item"><div class="item-info"><div class="item-name">Can cake</div></div><div class="item-price">450 DA</div></div>
+    </div>
+  </div>
+
+  <!-- menu footer -->
+  <footer style="background:var(--black2); border-top:1px solid var(--border); padding:2.5rem 4rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.5rem;">
+    <div class="footer-logo">BSS <span style="color:var(--ember)">FOOD</span> 03</div>
+    <div class="footer-info">
+      <div>📞 <a href="tel:0670814232" style="color:var(--ember); text-decoration:none">0670 814 232</a> · <a href="tel:0671866083" style="color:var(--ember); text-decoration:none">0671 866 083</a></div>
+      <div style="margin-top:0.3rem">📷 <a href="https://www.instagram.com/bss_food_03" target="_blank" style="color:var(--ember); text-decoration:none">@bss_food_03</a></div>
+    </div>
+    <a class="btn-primary" href="#" onclick="showPage('landing')" style="font-size:0.75rem">← Retour à l'accueil</a>
+  </footer>
+</div>
+
+<script>
+  // ── Page switching ──
+  function showPage(page) {
+    const landing = document.getElementById('landing-page');
+    const menu = document.getElementById('menu-page');
+    if (page === 'menu') {
+      landing.classList.add('hidden');
+      menu.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      menu.classList.remove('active');
+      landing.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    return false;
+  }
+
+  // ── Sticky nav scroll ──
+  const topNav = document.getElementById('topNav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) topNav.classList.add('scrolled');
+    else topNav.classList.remove('scrolled');
+  }, { passive: true });
+
+  // ── Reveal on scroll ──
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ── Mobile nav ──
+  function toggleMobileNav() {
+    document.getElementById('mobileNav').classList.toggle('open');
+  }
+
+  // ── Menu tab scroll ──
+  function scrollToSection(id, tab) {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = document.querySelector('.menu-nav-sticky').offsetHeight + 80;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }
+
+  // ── Highlight active menu tab on scroll ──
+  const menuSections = ['sec-burgers','sec-special','sec-pizza-l','sec-pizza-m','sec-tacos','sec-sandwiches','sec-plats','sec-drinks','sec-desserts'];
+  const tabs = document.querySelectorAll('.menu-tab');
+
+  function onMenuScroll() {
+    const scrollPos = window.scrollY + 200;
+    let current = 0;
+    menuSections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && el.offsetTop <= scrollPos) current = i;
+    });
+    tabs.forEach(t => t.classList.remove('active'));
+    if (tabs[current]) tabs[current].classList.add('active');
+  }
+
+  window.addEventListener('scroll', onMenuScroll, { passive: true });
+</script>
+</body>
+</html>
